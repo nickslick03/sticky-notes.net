@@ -1,4 +1,4 @@
-import { getStickyNotesArray } from "./stickyNoteModule.mjs";
+import { getStickyNotesArray } from "./stickyNote.mjs";
 
 const stickyNotePadsArray = [];
 
