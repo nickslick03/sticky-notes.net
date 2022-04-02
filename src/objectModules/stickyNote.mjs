@@ -1,4 +1,4 @@
-import { compareAsc, compareDesc, parseISO } from 'date-fns';
+import { compareDesc, parseISO } from 'date-fns';
 
 const stickyNotesArray = [];
 
@@ -16,18 +16,20 @@ const stickyNoteFunctions = {
     },
     set importance(value) {
         this._importance = value;
-    }
+    }, 
 }
 
 export const stickyNoteFactory = (importance, title, description, date, pad) => {
-    let length = stickyNotesArray.length;
-    stickyNotesArray.push(Object.create(stickyNoteFunctions));
-    stickyNotesArray[length].importance = importance;
-    stickyNotesArray[length].title = title;
-    stickyNotesArray[length].description = description;
-    stickyNotesArray[length].date = date;
-    stickyNotesArray[length].pad = pad;
-    return stickyNotesArray[length];
+    const stickyNote = Object.create(stickyNoteFunctions);
+    Object.assign(stickyNote, {
+        importance,
+        title,
+        description,
+        date: parseISO(date),
+        pad,
+    })
+    stickyNotesArray.push(stickyNote);
+    return stickyNotesArray[stickyNotesArray.length - 1];
 };
 
 export const getStickyNotesArray = sortMethod => {
@@ -36,13 +38,13 @@ export const getStickyNotesArray = sortMethod => {
         copyArray.sort((a, b) => {
             let returnValue = b._importance - a._importance;
             if(returnValue === 0) {
-                return compareDesc(parseISO(b.date), parseISO(a.date));
+                return compareDesc(b.date, a.date);
             }
             return returnValue;
         });
     } else if(sortMethod === "date") {
         copyArray.sort((a, b) => {
-            let returnValue = compareDesc(parseISO(b.date), parseISO(a.date));
+            let returnValue = compareDesc(b.date, a.date);
             if(returnValue === 0) {
                 return b._importance - a._importance;
             }
