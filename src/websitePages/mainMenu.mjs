@@ -1,5 +1,5 @@
 import { getStickyNodePadsArray, getStickyNodesArray } from "../elementModules/stickyNoteElement.mjs";
-import { appendMain } from "../elementModules/transition.js";
+import { replaceMain } from "../elementModules/transition.js";
 import { allStickyNotesPage } from "./allStickyNotes.js";
 
 const menuSkeleton = (() => {
@@ -21,7 +21,7 @@ const menuSkeleton = (() => {
     for(let element of [topStickyNotesTitle, allStickyNotes]) {
         element.classList.add('noselect');
         element.addEventListener('click', () => {
-            appendMain(allStickyNotesPage());
+            replaceMain(allStickyNotesPage());
         });
     }
     stickyNotePadsTitle.classList.add('noselect');

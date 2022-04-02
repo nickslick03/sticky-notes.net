@@ -17,6 +17,15 @@ export default (() => {
                 cloneContainer.lastChild.appendChild(div);
             }
             return cloneContainer;
+        },
+        stickyNotePad() {
+            let cloneContainer = sortContainer.cloneNode(true);
+            for(let sortOption of ['importance', 'date', 'title']) {
+                const div = document.createElement('div');
+                div.innerText = sortOption;
+                cloneContainer.lastChild.appendChild(div);
+            }
+            return cloneContainer;
         }
     }
 })();

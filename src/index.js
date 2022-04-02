@@ -4,7 +4,7 @@ import { stickyNoteFactory, getStickyNotesArray, removeStickyNote} from './objec
 import { stickyNotePadFactory, getStickyNotePadsArray, getStickyNotePad } from './objectModules/stickyNotePad.mjs';
 import { createStickyNode, getStickyNodesArray } from './elementModules/stickyNoteElement.mjs';
 import { mainMenuElement } from './websitePages/mainMenu.mjs';
-import { appendMain } from './elementModules/transition.js';
+import { replaceMain } from './elementModules/transition.js';
 
 stickyNotePadFactory("main", "#0061c2");
 stickyNotePadFactory("sub", "#ff5100");
@@ -23,7 +23,7 @@ console.table(getStickyNotePadsArray()[0].getChildren());
 
 
 setTimeout(() => {
-    appendMain(mainMenuElement());
+    replaceMain(mainMenuElement());
 }, 1);
 
 for(let key in getStickyNotesArray()[0]) {

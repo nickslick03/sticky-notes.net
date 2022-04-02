@@ -211,9 +211,11 @@ h2 {
     top: 50px;
 }
 
-/* BOTTOM */
+/* PLUS BUTTON */
 
 #plusButton {
+    height: 80px;
+    width: 80px;
     font-size: 8rem;
     position: fixed;
     transform: translate(-50%, -50%);
@@ -224,10 +226,10 @@ h2 {
     justify-content: center;
 }
 
-#plusButton > div:first-child {
+#plusButton > :first-child {
     height: 80px;
     width: 80px;
-    position: absolute;
+    position: fixed;
     color: white;
     background-color: none;
     border-radius: 50px;
@@ -240,33 +242,84 @@ h2 {
     align-items: center;
 }
 
-#plusButton:hover > div:first-child {
+#plusButton:hover > :first-child {
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.5);
     transform: rotate(-90deg);
 }
 
-#plusButton > div:nth-child(2) {
-    position: absolute;
+#plusButton > :nth-child(2), #plusButton > :nth-child(3) > div {
+    opacity: 0;
+    top: 0;
+    transition-property: opacity, top;
+    transition-duration: .8s;
+}
+
+#plusButton > :nth-child(2) {
+    position: fixed;
     z-index: -1;
     width: 60px;
     height: 60px;
     background-image: radial-gradient(red, darkred);
-    opacity: 0;
-    transform: none;
-    transition-property: opacity, transform;
-    transition-duration: .8s;
 }
 
-#plusButton:hover > div:nth-child(2) {
+#plusButton:hover > :nth-child(2) {
     z-index: 1;
     opacity: 1;
-    transform:translateY(-150%);
+    top: -80px;
+}
+
+#plusButton > :nth-child(3) {
+    position: fixed;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform:scale(25%);
+}
+
+#plusButton:hover > :nth-child(3) > div {
+    z-index: 1;
+    opacity: 1;
+    top: -750px;
+}
+
+#plusButton > :nth-child(3) > div > div {
+    background-image: radial-gradient(darkblue, blue);
+}
+
+#plusButton > :last-child {
+    position: fixed;
+    width: 0;
+    height: 0;
+    bottom: 80px;
+}
+
+#plusButton:hover > :last-child {
+    width: 100px;
+    height: 200px;
 }
 
 /* TRANSITION.JS */
 
-main > * {
+body > *, main > * {
     transition-property: all;
     transition-duration: 1s;
+}
+
+#coverDiv {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+.center {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: 2;
 }

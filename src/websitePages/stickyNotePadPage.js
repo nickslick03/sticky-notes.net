@@ -1,15 +1,13 @@
-import {  getStickyNodesArray } from "../elementModules/stickyNoteElement.mjs";
-import sortElement from "../elementModules/sortElement.mjs";
+import { createStickyNode } from "../elementModules/stickyNoteElement.mjs";
 import { replaceMain } from "../elementModules/transition.js";
 import { mainMenuElement } from "./mainMenu.mjs";
 
-const allStickyNotesSkeleton = (() => {
+const pageSkeleton = (() => {
     const container = document.createElement('div');
     const topContainer = document.createElement('div');
     const backLink = document.createElement('div');
     const title = document.createElement('h2');
-    const sortContainer = sortElement.stickyNote();
-    const stickyNotesContainer = document.createElement('div');
+        const stickyNotesContainer = document.createElement('div');
     container.className = 'moduleContainer';
     topContainer.className = 'topContainer';
     backLink.classList.add('link');
@@ -20,30 +18,29 @@ const allStickyNotesSkeleton = (() => {
     backLink.addEventListener('click', () => {
         replaceMain(mainMenuElement());
     });
-    sortContainer.lastChild.addEventListener('click', element => {
-        reappendStickyNotes(element.target.textContent);
-    });
-    for(let element of [backLink, title, sortContainer]) {
+    for(let element of [backLink, title]) {
         topContainer.appendChild(element);
     }
     for(let element of [topContainer, stickyNotesContainer]) {
         container.appendChild(element);
     }
     return {
+        title,
         container,
         stickyNotesContainer
     }
-})();
+})()
 
-export const allStickyNotesPage = () => {
-    reappendStickyNotes('importance');
-    return allStickyNotesSkeleton.container;
+export const stickyNotePadPage = pad => {
+    pageSkeleton.title.textContent = pad.name;
+    reappendStickyNotes(pad);
+    return pageSkeleton.container;
 }
 
-function reappendStickyNotes(sortMethod) {
-    allStickyNotesSkeleton.stickyNotesContainer.textContent = '';
-    const stickyNodesArray = getStickyNodesArray(sortMethod);
-    for(let stickyNode of stickyNodesArray) {
-        allStickyNotesSkeleton.stickyNotesContainer.appendChild(stickyNode);
+function reappendStickyNotes(pad) {
+    pageSkeleton.stickyNotesContainer.textContent = '';
+    const stickyNotesList = pad.getChildren();
+    for(let stickyNote of stickyNotesList) {
+        pageSkeleton.stickyNotesContainer.appendChild(createStickyNode(stickyNote));
     }
 }

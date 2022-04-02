@@ -1,6 +1,8 @@
 import { format }  from "date-fns";
 import { getStickyNotesArray } from "../objectModules/stickyNote.mjs";
 import { getStickyNotePad, getStickyNotePadsArray } from "../objectModules/stickyNotePad.mjs";
+import { stickyNotePadPage } from "../websitePages/stickyNotePadPage.js";
+import { replaceMain } from "./transition.js";
 
 export const createStickyNode = stickyNote => {
     const container = document.createElement('div');
@@ -40,6 +42,9 @@ export const createStickyNodePad = stickyNotePad => {
         }
         container.appendChild(div);
     }
+    container.addEventListener('click', () => {
+        replaceMain(stickyNotePadPage(stickyNotePad));
+    })
     return container;
 }
 
