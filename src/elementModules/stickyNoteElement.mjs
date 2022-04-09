@@ -2,12 +2,13 @@ import { format }  from "date-fns";
 import { getStickyNotesArray } from "../objectModules/stickyNote.mjs";
 import { getStickyNotePad, getStickyNotePadsArray } from "../objectModules/stickyNotePad.mjs";
 import { stickyNotePadPage } from "../websitePages/stickyNotePadPage.js";
-import { replaceMain } from "./transition.js";
+import { stickyNoteForm } from "./new&editStickyNote.mjs";
+import { Main } from "./transition.js";
 
 export const createStickyNode = stickyNote => {
     const container = document.createElement('div');
     container.classList.add('stickyNoteContainer');
-    const color = getStickyNotePad(stickyNote.pad).color;
+    const color = getStickyNotePad(stickyNote.pad)._color;
     container.style.backgroundImage = `radial-gradient(${getSecondaryColor(color)}, ${color})`;
     container.style.color = getTextColor(color);
     const title = document.createElement('h3');
@@ -26,13 +27,16 @@ export const createStickyNode = stickyNote => {
     container.appendChild(importance);
     container.appendChild(description);
     container.appendChild(date);
+    container.addEventListener('click', () => {
+        stickyNoteForm.openPopup(stickyNote);
+    });
     return container;
 };
 
 export const createStickyNodePad = stickyNotePad => {
     const container = document.createElement('div');
     container.className = 'stickyNotePadContainer';
-    const color = stickyNotePad.color;
+    const color = stickyNotePad._color;
     for(let i = 0; i < 3; i++) {
         const div = document.createElement('div');
         div.style.backgroundImage = `radial-gradient(${getSecondaryColor(color)}, ${color})`;
@@ -43,7 +47,7 @@ export const createStickyNodePad = stickyNotePad => {
         container.appendChild(div);
     }
     container.addEventListener('click', () => {
-        replaceMain(stickyNotePadPage(stickyNotePad));
+        Main.replace(stickyNotePadPage(stickyNotePad));
     })
     return container;
 }

@@ -1,50 +1,58 @@
 const coverDiv = document.createElement('div');
 coverDiv.id = 'coverDiv';
 
-export const replaceMain = (() => {
+export const Main = (() => {
     const main = document.querySelector('main');
     let inProgress = false;
-    let currentElement;
-    return nextElement => {
-        if(inProgress) {
-            return;
-        } else {
-            if(currentElement === undefined) {
-                document.body.appendChild(coverDiv);
-                inProgress = true;
-                makeInvisible(nextElement);
-                main.appendChild(nextElement);
-                setTimeout(() => {
-                    clearStyle(nextElement);
-                    topOfPage();
-                }, 1);
-                setTimeout(() => {
-                    currentElement = nextElement;
-                    inProgress = false;
-                    coverDiv.remove();
-                }, 1001);
+    let currentElementFunc;
+    return {
+        replace(nextElementFunc) {
+            if(inProgress) {
+                return;
             } else {
-                document.body.appendChild(coverDiv);
-                inProgress = true;
-                makeInvisible(currentElement);
-                nextElement.style.position = 'absolute';
-                makeInvisible(nextElement);
-                main.appendChild(nextElement);
-                setTimeout(() => {
-                    currentElement.remove();
-                    clearStyle(currentElement);
-                    nextElement.style.position = 'static';
-                    clearStyle(nextElement);
-                    topOfPage();
-                }, 1000);
-                setTimeout(() => {
-                    currentElement = nextElement;
-                    inProgress = false;
-                    coverDiv.remove();
-                }, 2000);
+                let nextElement = nextElementFunc();
+                if(currentElementFunc === undefined) {
+                    document.body.appendChild(coverDiv);
+                    inProgress = true;
+                    makeInvisible(nextElement);
+                    main.appendChild(nextElement);
+                    setTimeout(() => {
+                        clearStyle(nextElement);
+                        topOfPage();
+                    }, 1);
+                    setTimeout(() => {
+                        currentElementFunc = nextElementFunc;
+                        inProgress = false;
+                        coverDiv.remove();
+                    }, 1001);
+                } else {
+                    let currentElement = currentElementFunc();
+                    document.body.appendChild(coverDiv);
+                    inProgress = true;
+                    makeInvisible(currentElement);
+                    nextElement.style.position = 'absolute';
+                    makeInvisible(nextElement);
+                    main.appendChild(nextElement);
+                    setTimeout(() => {
+                        currentElement.remove();
+                        clearStyle(currentElement);
+                        nextElement.style.position = 'static';
+                        clearStyle(nextElement);
+                        topOfPage();
+                    }, 1000);
+                    setTimeout(() => {
+                        currentElementFunc = nextElementFunc;
+                        inProgress = false;
+                        coverDiv.remove();
+                    }, 2000);
+                }
             }
+        },
+        reappend() {
+            currentElementFunc().remove();
+            main.appendChild(currentElementFunc());
         }
-    };
+    }      
 })();
 
 
@@ -61,7 +69,7 @@ export const body = (() => {
             document.body.appendChild(coverDiv);
             currentElement.className = 'center';
             makeInvisible(currentElement);
-            main.appendChild(currentElement);
+            document.body.appendChild(currentElement);
             setTimeout(() => {
                 clearStyle(currentElement);
             }, 1);

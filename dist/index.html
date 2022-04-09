@@ -12,14 +12,51 @@
     <div id="plusButton" class="noselect">
         <div>+</div>
         <div id="newStickyNote" title="New Sticky Note"></div>
-        <div title="New Sticky Note Pad">
-            <div class="stickyNotePadContainer">
+        <div>
+            <div id="newStickyNotePad" title="New Sticky Note Pad" class="stickyNotePadContainer">
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
         </div>
         <div></div>
+    </div>
+    <div id="stickyNoteForm" class="center formContainer">
+        <h2></h2>
+        <input type="text" placeholder="title">
+        <div>
+            <label for="importance">Importance:</label>
+            <select name="importance" id="importance">
+                <option value="">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <textarea name="description" id="description" cols="30" rows="10" placeholder="description"></textarea>
+        <input type="date" name="date" id="date">
+        <div>
+            <label for="pad">Pad:</label>
+            <select name="pad" id="pad">
+
+            </select>
+        </div>
+        <div class="buttons">
+            <div class="noselect">cancel</div>
+            <div class="noselect">confirm</div>
+        </div>
+    </div>
+    <div id="stickyNotePadForm" class="center formContainer">
+        <h2></h2>
+        <input type="text" placeholder="name">
+        <div>
+             <label for="favcolor">color:</label>
+            <input type="color" id="color" name="color" value="#ff0000">
+        </div>
+        <div class="buttons">
+            <div class="noselect">cancel</div>
+            <div class="noselect">confirm</div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 import {  getStickyNodesArray } from "../elementModules/stickyNoteElement.mjs";
 import sortElement from "../elementModules/sortElement.mjs";
-import { replaceMain } from "../elementModules/transition.js";
+import { Main } from "../elementModules/transition.js";
 import { mainMenuElement } from "./mainMenu.mjs";
 
 const allStickyNotesSkeleton = (() => {
@@ -18,7 +18,7 @@ const allStickyNotesSkeleton = (() => {
     backLink.textContent = 'Back';
     title.textContent = 'All Sticky Notes';
     backLink.addEventListener('click', () => {
-        replaceMain(mainMenuElement());
+        Main.replace(mainMenuElement);
     });
     sortContainer.lastChild.addEventListener('click', element => {
         reappendStickyNotes(element.target.textContent);

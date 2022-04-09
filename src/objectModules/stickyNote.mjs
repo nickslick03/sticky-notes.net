@@ -70,6 +70,6 @@ export const getStickyNotesArray = sortMethod => {
     return copyArray;
 }
 
-export const removeStickyNote = (index) => {
-    stickyNotesArray.splice(index, 1);
+export const removeStickyNote = stickyNote => {
+    stickyNotesArray.splice(stickyNotesArray.indexOf(stickyNote), 1);
 }

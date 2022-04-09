@@ -1,4 +1,4 @@
-import { getStickyNotesArray } from "./stickyNote.mjs";
+import { getStickyNotesArray, removeStickyNote } from "./stickyNote.mjs";
 
 const stickyNotePadsArray = [];
 
@@ -13,14 +13,20 @@ const canGetChildren = {
         }
         return targetStickyNotes;
     },
+    set color(color) {
+        this._color = hexToHSL(color);
+    },
+    get color() {
+        return HSLToHex(this._color);
+    }
 };
 
 export const stickyNotePadFactory = (name, color) => {
-    const stickyNotePad = Object.assign({}, 
-        canGetChildren,
+    const stickyNotePad = Object.create(canGetChildren);
+    Object.assign(stickyNotePad,
         {
             name, 
-            color: hexToHSL(color),
+            color,
         });
     stickyNotePadsArray.push(stickyNotePad);
     return stickyNotePadsArray[stickyNotePadsArray.length - 1];
@@ -53,10 +59,13 @@ export const getStickyNotePad = name => {
     }
 }
 
-export const removeStickyNotePad = index => {
-    stickyNotePadsArray.splice(index, 1);
+export const removeStickyNotePad = stickyNotePad => {
+    for(let stickyNote of stickyNotePad.getChildren()) {
+        removeStickyNote(stickyNote);
+    }
+    stickyNotePadsArray.splice(stickyNotePadsArray.indexOf(stickyNotePad), 1);
     if(stickyNotePadsArray.length === 0) {
-        stickyNotePadFactory("main", "red");
+        stickyNotePadFactory("main", "#0061c2");
     }
 }
 
@@ -104,3 +113,57 @@ function hexToHSL(H) {
   
     return "hsl(" + h + "," + s + "%," + l + "%)";
   }
+
+  function HSLToHex(hsl) {
+    let sep = hsl.indexOf(",") > -1 ? "," : " ";
+    hsl = hsl.substr(4).split(")")[0].split(sep);
+  
+    let h = hsl[0],
+        s = hsl[1].substr(0,hsl[1].length - 1) / 100,
+        l = hsl[2].substr(0,hsl[2].length - 1) / 100;
+          
+    // Strip label and convert to degrees (if necessary)
+    if (h.indexOf("deg") > -1)
+      h = h.substr(0,h.length - 3);
+    else if (h.indexOf("rad") > -1)
+      h = Math.round(h.substr(0,h.length - 3) * (180 / Math.PI));
+    else if (h.indexOf("turn") > -1)
+      h = Math.round(h.substr(0,h.length - 4) * 360);
+    if (h >= 360)
+      h %= 360;
+
+    let c = (1 - Math.abs(2 * l - 1)) * s,
+        x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+        m = l - c/2,
+        r = 0,
+        g = 0, 
+        b = 0; 
+
+    if (0 <= h && h < 60) {
+        r = c; g = x; b = 0;
+    } else if (60 <= h && h < 120) {
+        r = x; g = c; b = 0;
+    } else if (120 <= h && h < 180) {
+        r = 0; g = c; b = x;
+    } else if (180 <= h && h < 240) {
+        r = 0; g = x; b = c;
+    } else if (240 <= h && h < 300) {
+        r = x; g = 0; b = c;
+    } else if (300 <= h && h < 360) {
+        r = c; g = 0; b = x;
+    }
+    // Having obtained RGB, convert channels to hex
+    r = Math.round((r + m) * 255).toString(16);
+    g = Math.round((g + m) * 255).toString(16);
+    b = Math.round((b + m) * 255).toString(16);
+
+    // Prepend 0s, if necessary
+    if (r.length == 1)
+        r = "0" + r;
+    if (g.length == 1)
+        g = "0" + g;
+    if (b.length == 1)
+        b = "0" + b;
+
+    return "#" + r + g + b;
+}
