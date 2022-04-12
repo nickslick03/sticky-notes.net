@@ -45,7 +45,15 @@ export const stickyNotePadForm = (() => {
     });
     confirmButton.addEventListener('click', () => {
         for(let stickyNotePad of getStickyNotePadsArray()) {
-            if(stickyNotePad.name === name.value && openedStickyNotePad.name !== stickyNotePad.name) {
+            if(stickyNotePad.name === name.value) {
+                if(openedStickyNotePad) {
+                    if(openedStickyNotePad.name !== stickyNotePad.name) {
+                        alert(name.value + ' is already the name of another sticky note pad. Please use a different name.');
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
                 alert(name.value + ' is already the name of another sticky note pad. Please use a different name.');
                 return;
             }

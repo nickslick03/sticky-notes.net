@@ -46,7 +46,6 @@ export const stickyNotePadPage = pad => {
         pageSkeleton.edit = newEditButton;
         pageSkeleton.edit.addEventListener('click', () => {
             stickyNotePadForm.openPopup(pad);
-            console.log('hi');
         });
         reappendStickyNotes(pad);
         return pageSkeleton.container;

@@ -1,4 +1,5 @@
 import { compareDesc, parseISO } from 'date-fns';
+import { saveStickyNotes } from '../localStorage.mjs';
 
 const stickyNotesArray = [];
 
@@ -17,7 +18,7 @@ const stickyNoteFunctions = {
     set importance(value) {
         this._importance = value;
     }, 
-}
+};
 
 export const stickyNoteFactory = (importance, title, description, date, pad) => {
     const stickyNote = Object.create(stickyNoteFunctions);
@@ -29,7 +30,6 @@ export const stickyNoteFactory = (importance, title, description, date, pad) => 
         pad,
     })
     stickyNotesArray.push(stickyNote);
-    return stickyNotesArray[stickyNotesArray.length - 1];
 };
 
 export const getStickyNotesArray = sortMethod => {
@@ -67,9 +67,10 @@ export const getStickyNotesArray = sortMethod => {
             }
         })
     }
+    saveStickyNotes(stickyNotesArray);
     return copyArray;
-}
+};
 
 export const removeStickyNote = stickyNote => {
     stickyNotesArray.splice(stickyNotesArray.indexOf(stickyNote), 1);
-}
+};

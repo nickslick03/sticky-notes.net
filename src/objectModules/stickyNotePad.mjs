@@ -1,3 +1,4 @@
+import { saveStickyNotePads } from "../localStorage.mjs";
 import { getStickyNotesArray, removeStickyNote } from "./stickyNote.mjs";
 
 const stickyNotePadsArray = [];
@@ -29,7 +30,6 @@ export const stickyNotePadFactory = (name, color) => {
             color,
         });
     stickyNotePadsArray.push(stickyNotePad);
-    return stickyNotePadsArray[stickyNotePadsArray.length - 1];
 }
 
 export const getStickyNotePadsArray = sortMethod => {
@@ -48,6 +48,7 @@ export const getStickyNotePadsArray = sortMethod => {
             return colors.indexOf(a.color) - colors.indexOf(b.color);
         })
     }
+    saveStickyNotePads(stickyNotePadsArray);
     return arrayCopy;
 }
 
@@ -67,6 +68,7 @@ export const removeStickyNotePad = stickyNotePad => {
     if(stickyNotePadsArray.length === 0) {
         stickyNotePadFactory("main", "#0061c2");
     }
+    saveStickyNotePads(stickyNotePadsArray);
 }
 
 function hexToHSL(H) {
