@@ -34,13 +34,25 @@ export const saveStickyNotes = stickyNoteArray => {
 };
 
 export const retriveStickyNotePads = () => {
-    for(let stickyNotePad of JSON.parse(localStorage.getItem("stickyNotePads"))) {
+    const localStorageList = localStorage.getItem("stickyNotePads");
+    if(!(localStorageList)) {
+        localStorage.setItem("stickyNotePads", "[]");
+        stickyNotePadFactory("main", "#0061c2");
+        return;
+    } else {
+        for(let stickyNotePad of JSON.parse(localStorageList)) {
         stickyNotePadFactory(stickyNotePad.name, stickyNotePad.color);
-    }
-}
+        }
+    } 
+};
 
 export const retriveStickyNotes = () => {
-    for(let stickyNote of JSON.parse(localStorage.getItem("stickyNotes"))) {
+    const localStorageList = localStorage.getItem("stickyNotes");
+    if(!(localStorageList)) {
+        localStorage.setItem("stickyNotes", "[]");
+        return;
+    }
+    for(let stickyNote of JSON.parse(localStorageList)) {
         stickyNoteFactory(stickyNote._importance, stickyNote.title, stickyNote.description, stickyNote.date, stickyNote.pad);
     }
 };
