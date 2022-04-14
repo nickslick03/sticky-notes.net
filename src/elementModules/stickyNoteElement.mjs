@@ -76,7 +76,7 @@ function getTextColor(color) {
     }
 }
 
-function getSecondaryColor(color) {
+export function getSecondaryColor(color) {
     let brightness = parseInt(color.substring(color.lastIndexOf(',') + 1, color.lastIndexOf('%')));
     if(brightness >= 50) {
         brightness -= 10;

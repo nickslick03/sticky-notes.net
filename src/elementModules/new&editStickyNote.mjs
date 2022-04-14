@@ -1,6 +1,7 @@
 import { format, parseISO } from "date-fns";
 import { removeStickyNote, stickyNoteFactory } from "../objectModules/stickyNote.mjs";
 import { getStickyNotePadsArray } from "../objectModules/stickyNotePad.mjs";
+import { getSecondaryColor } from "./stickyNoteElement.mjs";
 import { Main } from "./transition.js";
 
 
@@ -43,8 +44,14 @@ export const stickyNoteForm = (() => {
         } else {
             header.textContent = 'New Sticky Note';
         }
+        changeBackgroundImage();
         document.body.appendChild(coverDiv);
         document.body.appendChild(stickyNoteFormContainer);
+    }
+    function changeBackgroundImage() {
+        let padNames = Array.from(pad.children).map(option => {return option.textContent});
+        let color = getStickyNotePadsArray("name")[padNames.indexOf(pad.value)]._color;
+        stickyNoteFormContainer.style.backgroundImage = `radial-gradient(${getSecondaryColor(color)}, ${color})`;
     }
     function closePopup() {
         deleteButton.remove();
@@ -57,6 +64,9 @@ export const stickyNoteForm = (() => {
     }
     newStickyNoteButton.addEventListener('click', () => {
         openPopup();
+    });
+    pad.addEventListener('click', () => {
+        changeBackgroundImage();
     });
     cancelButton.addEventListener('click', () => {
         closePopup();

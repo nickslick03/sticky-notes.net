@@ -61,4 +61,4 @@ export const mainMenuElement = () => {
         menuSkeleton.stickyNotePadsContainer.appendChild(pad);
     }
     return menuSkeleton.container;
-}
+};

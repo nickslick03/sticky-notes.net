@@ -1,6 +1,8 @@
 import { stickyNotePadForm } from "../elementModules/new&editStickyNotePad.mjs";
+import sortElement from "../elementModules/sortElement.mjs";
 import { createStickyNode } from "../elementModules/stickyNoteElement.mjs";
 import { Main } from "../elementModules/transition.js";
+import { sortStickyNotesArray } from "../objectModules/stickyNote.mjs";
 import { mainMenuElement } from "./mainMenu.mjs";
 
 const pageSkeleton = (() => {
@@ -8,6 +10,7 @@ const pageSkeleton = (() => {
     const topContainer = document.createElement('div');
     const backLink = document.createElement('div');
     const title = document.createElement('h2');
+    const sortContainer = sortElement.stickyNotePad();
     const edit = document.createElement('div');
     const stickyNotesContainer = document.createElement('div');
     container.className = 'moduleContainer';
@@ -17,19 +20,18 @@ const pageSkeleton = (() => {
     edit.classList.add('editButton');
     stickyNotesContainer.className = 'moduleSubContainer';
     backLink.textContent = 'Back';
-    title.textContent = 'All Sticky Notes';
     edit.textContent = 'Edit';
     backLink.addEventListener('click', () => {
         Main.replace(mainMenuElement);
     });
-    for(let element of [backLink, title, edit]) {
+    for(let element of [backLink, edit, title, sortContainer]) {
         topContainer.appendChild(element);
     }
     for(let element of [topContainer, stickyNotesContainer]) {
         container.appendChild(element);
     }
     return {
-        topContainer,
+        sortContainer,
         title,
         edit,
         container,
@@ -40,10 +42,9 @@ const pageSkeleton = (() => {
 export const stickyNotePadPage = pad => {
     return () => {
         pageSkeleton.title.textContent = pad.name;
-        const newEditButton = pageSkeleton.edit.cloneNode(true);
-        pageSkeleton.edit.remove();
-        pageSkeleton.topContainer.appendChild(newEditButton);
-        pageSkeleton.edit = newEditButton;
+        pageSkeleton.sortContainer.lastChild.addEventListener('click', element => {
+            reappendStickyNotes(pad, element.target.textContent);
+        });
         pageSkeleton.edit.addEventListener('click', () => {
             stickyNotePadForm.openPopup(pad);
         });
@@ -52,9 +53,9 @@ export const stickyNotePadPage = pad => {
     }
 }
 
-function reappendStickyNotes(pad) {
+function reappendStickyNotes(pad, sortMethod) {
     pageSkeleton.stickyNotesContainer.textContent = '';
-    const stickyNotesList = pad.getChildren();
+    const stickyNotesList = sortStickyNotesArray(pad.getChildren(), sortMethod);
     for(let stickyNote of stickyNotesList) {
         pageSkeleton.stickyNotesContainer.appendChild(createStickyNode(stickyNote));
     }

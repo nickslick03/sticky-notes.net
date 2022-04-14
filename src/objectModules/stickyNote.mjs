@@ -33,42 +33,50 @@ export const stickyNoteFactory = (importance, title, description, date, pad) => 
 };
 
 export const getStickyNotesArray = sortMethod => {
-    const copyArray = [...stickyNotesArray];
+    const copyArray = sortStickyNotesArray([...stickyNotesArray], sortMethod);
+    saveStickyNotes(stickyNotesArray);
+    return copyArray;
+};
+
+export const sortStickyNotesArray = (array, sortMethod) => {
     if(sortMethod === "importance") {
-        copyArray.sort((a, b) => {
+        array.sort((a, b) => {
             let returnValue = b._importance - a._importance;
             if(returnValue === 0) {
                 return compareDesc(b.date, a.date);
             }
             return returnValue;
         });
+        return array;
     } else if(sortMethod === "date") {
-        copyArray.sort((a, b) => {
+        array.sort((a, b) => {
             let returnValue = compareDesc(b.date, a.date);
             if(returnValue === 0) {
                 return b._importance - a._importance;
             }
             return returnValue;
-        })
+        });
+        return array;
     } else if(sortMethod === "title") {
-        copyArray.sort((a, b) => {
+        array.sort((a, b) => {
             if(a.title < b.title) {
                 return -1;
             } else {
                 return 1;
             }
         });
+        return array;
     } else if(sortMethod === "pad") {
-        copyArray.sort((a, b) => {
+        array.sort((a, b) => {
             if(a.pad < b.pad) {
                 return -1;
             } else {
                 return 1;
             }
-        })
+        });
+        return array;
     }
-    saveStickyNotes(stickyNotesArray);
-    return copyArray;
+    return array;
 };
 
 export const removeStickyNote = stickyNote => {

@@ -1,5 +1,6 @@
 import { getStickyNotePadsArray, removeStickyNotePad, stickyNotePadFactory } from "../objectModules/stickyNotePad.mjs";
 import { mainMenuElement } from "../websitePages/mainMenu.mjs";
+import { getSecondaryColor } from "./stickyNoteElement.mjs";
 import { Main } from "./transition.js";
 
 export const stickyNotePadForm = (() => {
@@ -26,9 +27,14 @@ export const stickyNotePadForm = (() => {
             buttonContainer.appendChild(deleteButton);
         } else {
             header.textContent = 'New Sticky Note Pad';
+            color.value = '#ff0000';
         }
+        changeBackgroundColor();
         document.body.appendChild(coverDiv);
         document.body.appendChild(stickyNotePadFormContainer);
+    }
+    function changeBackgroundColor() {
+        stickyNotePadFormContainer.style.backgroundColor = color.value;
     }
     function closePopup() {
         stickyNotePadFormContainer.remove();

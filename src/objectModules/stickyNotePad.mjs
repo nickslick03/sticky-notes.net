@@ -33,23 +33,22 @@ export const stickyNotePadFactory = (name, color) => {
 }
 
 export const getStickyNotePadsArray = sortMethod => {
-    const arrayCopy = [...stickyNotePadsArray];
+    const arrayCopy = sortStickyNotePadsArray([...stickyNotePadsArray], sortMethod);
+    saveStickyNotePads(stickyNotePadsArray);
+    return arrayCopy;
+}
+
+export const sortStickyNotePadsArray = (array, sortMethod) => {
     if(sortMethod === "name") {
-        arrayCopy.sort((a, b) => {
+        array.sort((a, b) => {
             if(a.name < b.name) {
                 return -1;
             } else {
                 return 1;
             }
         });
-    } else if(sortMethod === "color") {
-        const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'black', 'brown', 'gray', 'white'];
-        arrayCopy.sort((a, b) => {
-            return colors.indexOf(a.color) - colors.indexOf(b.color);
-        })
     }
-    saveStickyNotePads(stickyNotePadsArray);
-    return arrayCopy;
+    return array;
 }
 
 export const getStickyNotePad = name => {
@@ -58,7 +57,7 @@ export const getStickyNotePad = name => {
             return stickyNotePadsArray[stickyNotePadsArray.indexOf(stickyNotePad)];
         }
     }
-}
+};
 
 export const removeStickyNotePad = stickyNotePad => {
     for(let stickyNote of stickyNotePad.getChildren()) {

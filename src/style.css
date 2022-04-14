@@ -1,8 +1,12 @@
 /* GLOBAL */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap');
+
 :root {
     background-image: radial-gradient(rgb(179, 179, 250), rgb(97, 97, 211));
     min-height: 100vh;
+    font-family: 'Roboto Slab', serif;
+    font-weight:100 
 }
 
 body {
@@ -36,7 +40,7 @@ h1 {
     color: rgb(97, 97, 211);
     background-color: rgb(255, 255, 255);
     margin: 0 0 20px 0;
-    padding: 20px;
+    padding: 25px;
     height: 100px;
     width: 100px;
 }
@@ -83,9 +87,9 @@ h2 {
 }
 
 
-/* SORT */
+/* SORT/EDIT */
 
-.sortContainer {
+.sortContainer, .editButton {
     font-size: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -94,7 +98,7 @@ h2 {
     z-index: 1;
 }
 
-.sortContainer > * {
+.sortContainer > *, .editButton {
     background-color: white;
     padding: 10px;
     border-radius: 5px;
@@ -211,19 +215,13 @@ h2 {
     top: 50px;
 }
 
-.editButton {
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 1px rgb(85, 85, 85);
-}
-
 /* PLUS BUTTON */
 
 #plusButton {
+    font-family: initial;
     height: 80px;
     width: 80px;
-    font-size: 8rem;
+    font-size: 9rem;
     position: fixed;
     transform: translate(-50%, -50%);
     top: calc(100% - 100px);
@@ -315,7 +313,7 @@ h2 {
 /* TRANSITION.JS */
 
 body > *, main > * {
-    transition-property: all;
+    transition-property: visibility, opacity, transform;
     transition-duration: 1s;
 }
 
@@ -338,10 +336,6 @@ body > *, main > * {
 }
 
 /* NEW&EDIT STICKY NOTE . MJS */
-
-#stickyNoteForm {
-    background-image: radial-gradient(darkred, red);
-}
 
 .formContainer {
     color: white;
@@ -372,10 +366,6 @@ body > *, main > * {
     background-color: white;
 }
 
-#stickyNoteForm .buttons > div:hover {
-    color: red;
-}
-
-#stickyNotePadForm {
-    background-image: radial-gradient(darkblue, blue);
+.buttons > div:hover {
+   color: black;
 }

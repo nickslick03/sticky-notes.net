@@ -4,7 +4,7 @@ export default (() => {
     const sortDropdown = document.createElement('div');
     sortContainer.className = 'sortContainer';
     sortDropdown.className = 'sortDropdown';
-    sortTitle.textContent = 'sort';
+    sortTitle.textContent = 'Sort';
     for(let element of [sortTitle, sortDropdown]) {
         sortContainer.appendChild(element);
     }
