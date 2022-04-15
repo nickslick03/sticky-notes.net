@@ -1,2 +1,2 @@
 # sticky-notes.net
-Create sticky notes and sticky note pads to store them with attributes like dates and importance!
+Create cool-looking sticky notes and never forget anything again!
