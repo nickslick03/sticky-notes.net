@@ -241,6 +241,7 @@ h2 {
 }
 
 #plusButton > :first-child {
+    font-family: Arial, Helvetica, sans-serif;
     height: 80px;
     width: 80px;
     position: fixed;
